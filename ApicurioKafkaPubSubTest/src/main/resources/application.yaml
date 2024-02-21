@@ -1,0 +1,41 @@
+bootstrap.servers: "ConfluentCloudServer:9092"
+
+KEY_SERIALIZER_CLASS_CONFIG: AvroKafkaSerializer.class
+VALUE_SERIALIZER_CLASS_CONFIG: AvroKafkaSerializer.class
+
+KEY_DESERIALIZER_CLASS_CONFIG: AvroKafkaDeserializer.class
+VALUE_DESERIALIZER_CLASS_CONFIG: AvroKafkaDeserializer.class
+
+
+
+basic.auth.credentials.source: "USER_INFO"
+sasl.mechanism: "PLAIN"
+sasl.jaas.config: "org.apache.kafka.common.security.plain.PlainLoginModule   required username='<USERNAME'   password='<PASSWORD>';"
+security.protocol: "SASL_SSL"
+client.dns.lookup: "use_all_dns_ips"
+acks: "all"
+enable.idempotence: "true"
+
+consume.group.id: "transGroupID"
+#consume.enable.auto.commit: "true"
+consume.enable.auto.commit: "false"
+consume.isolation.level: "read_committed"
+publisher.topic: "ApicurioExample"
+publisher.apicurio.group: "HeinzGroup"
+
+# REST listening port for POST Request
+server:
+  port: 9090
+
+
+logging:
+level:
+root: INFO
+io.confluent.heinz: ERROR
+org.apache.kafka.clients.FetchSessionHandler: ERROR
+io.confluent.heinz.cloudeventsconfluentsr.restController: INFO
+io.confluent.heinz.cloudeventsconfluentsr.ConfluentSession: INFO
+
+
+
+

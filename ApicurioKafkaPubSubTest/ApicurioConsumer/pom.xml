@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.1</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>io.confluent.heinz.apicuriokafkapubsubtest</groupId>
+    <artifactId>ApicurioConsumer</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>ApicurioConsumer</name>
+    <description>ApicurioConsumer</description>
+    <properties>
+        <java.version>17</java.version>
+        <apicurio.version>2.4.12.Final</apicurio.version>
+        <apicurio-registry.version>2.4.12.Final</apicurio-registry.version>
+        <json-maven-plugin>1.1.2</json-maven-plugin>
+        <avro-maven-plugin>1.11.1</avro-maven-plugin>
+        <registry.version>2.5.8.Final</registry.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.apicurio</groupId>
+            <artifactId>apicurio-registry-client</artifactId>
+            <version>${apicurio-registry.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.apicurio</groupId>
+            <artifactId>apicurio-registry-serdes-avro-serde</artifactId>
+            <version>${apicurio-registry.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.avro</groupId>
+                <artifactId>avro-maven-plugin</artifactId>
+                <version>${avro-maven-plugin}</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>schema</goal>
+                            <goal>protocol</goal>
+                            <goal>idl-protocol</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirectory>${basedir}/src/main/resources/avroschema</sourceDirectory>
+                            <outputDirectory>${project.build.directory}/generated-sources</outputDirectory>
+                            <stringType>String</stringType>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--
+            <plugin>
+                <groupId>io.apicurio</groupId>
+                <artifactId>apicurio-registry-maven-plugin</artifactId>
+                <version>${registry.version}</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+
+                        <goals>
+                            <goal>schema</goal>
+                        </goals>
+
+                        <configuration>
+                            <registryUrl>http://my-cluster-service-registry-myproject.example.com/api</registryUrl>
+                            <artifactType>AVRO</artifactType>
+                            <artifacts>
+                                <avroMsg>${project.basedir}/src/main/resources/avroschema/avroMsg.avsc</avroMsg>
+                                <avroMsgK>${project.basedir}/src/main/resources/avroschema/avroMsgK.avsc</avroMsgK>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            -->
+        </plugins>
+    </build>
+
+</project>
